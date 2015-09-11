@@ -1,0 +1,11 @@
+/* line 1, ../../src/scss/partials/_body.scss */
+body {
+  background: #6EBECC;
+  text-align: center;
+}
+
+/* line 6, ../../src/scss/partials/_body.scss */
+.sum,
+.location {
+  height: 50px;
+}

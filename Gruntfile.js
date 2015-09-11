@@ -75,62 +75,25 @@ module.exports = function (grunt) {
      */
     webpack: {
       dev: {
-        entry: './src/js/main.js',
+        entry: './<%= project.src %>/js/main.js',
         output: {
-            path: 'dist/js',
+            path: '<%= project.assets %>/js',
             filename: 'scripts.js'
         },
         module: {
             loaders: [
-                {test: 'src/js', loader: 'babel-loader'}
+                {test: '<%= project.src %>/js', loader: 'babel-loader'}
             ]
         },
-        keepalive: true,
+        //keepalive: true,
         stats: {
             // Nice colored output
             colors: true
         },
         // Create Sourcemaps for the bundle
-        devtool: 'source-map'
+        //devtool: 'source-map'
       }
     },
-
-    /**
-     * JSHint
-     * https://github.com/gruntjs/grunt-contrib-jshint
-     * Manage the options inside .jshintrc file
-     */
- /**
-    jshint: {
-      files: [
-        'src/js/*.js',
-        'Gruntfile.js'
-      ],
-      options: {
-        jshintrc: '.jshintrc'
-      }
-    },  
-*/
-
-    /**
-     * Concatenate JavaScript files
-     * https://github.com/gruntjs/grunt-contrib-concat
-     * Imports all .js files and appends project banner
-     */
-/**
-    concat: {
-      dev: {
-        files: {
-          '<%= project.assets %>/js/scripts.min.js': '<%= project.js %>'
-        }
-      },
-      options: {
-        stripBanners: true,
-        nonull: true,
-        banner: '<%= tag.banner %>'
-      }
-    },
-*/
 
     /**
      * Uglify (minify) JavaScript files
@@ -143,7 +106,7 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
-          '<%= project.assets %>/js/scripts.min.js': '<%= project.js %>'
+          '<%= project.assets %>/js/scripts.min.js': '<%= project.assets %>/js/scripts.js'
         }
       }
     },
@@ -189,34 +152,6 @@ module.exports = function (grunt) {
       }
     },
 
-    /**
-     * Autoprefixer
-     * Adds vendor prefixes automatically
-     * https://github.com/nDmitry/grunt-autoprefixer
-     
-    autoprefixer: {
-      options: {
-        browsers: [
-          'last 2 version',
-          'safari 6',
-          'ie 9',
-          'opera 12.1',
-          'ios 6',
-          'android 4'
-        ]
-      },
-      dev: {
-        files: {
-          '<%= project.assets %>/css/styles.min.css': ['<%= project.assets %>/css/styles.css']
-        }
-      },
-      dist: {
-        files: {
-          '<%= project.assets %>/css/styles.prefixed.css': ['<%= project.assets %>/css/styles.unprefixed.css']
-        }
-      }
-    },
-    */
     postcss: {
       options: {
         map: false,
@@ -252,37 +187,6 @@ module.exports = function (grunt) {
     },
 
     /**
-     * CSSMin
-     * CSS minification
-     * https://github.com/gruntjs/grunt-contrib-cssmin
-     *
-    cssmin: {
-      dev: {
-        options: {
-          banner: '<%= tag.banner %>'
-        },
-        files: {
-          '<%= project.assets %>/css/styles.min.css': [
-            '<%= project.src %>/components/normalize-css/normalize.css',
-            '<%= project.assets %>/css/styles.css'
-          ]
-        }
-      },
-      dist: {
-        options: {
-          banner: '<%= tag.banner %>'
-        },
-        files: {
-          '<%= project.assets %>/css/styles.min.css': [
-            '<%= project.src %>/components/normalize-css/normalize.css',
-            '<%= project.assets %>/css/styles.prefixed.css'
-          ]
-        }
-      }
-    },
-    */
-
-    /**
      * Build bower components
      * https://github.com/yatskevich/grunt-bower-task
      */
@@ -310,7 +214,11 @@ module.exports = function (grunt) {
       },
       webpack: {
         files: '<%= project.src %>/js/{,*/}*.js',
-        tasks: ['webpack']
+        tasks: ['webpack:dev']
+      },
+      uglify: {
+        files: '<%= project.assets %>/js/scripts.js',
+        tasks: ['uglify:dist']
       },
       compass: {
         files: '<%= project.src %>/scss/{,*/}*.{scss,sass}',
@@ -330,6 +238,7 @@ module.exports = function (grunt) {
 
     // 'jshint',
     'webpack:dev',
+    'uglify:dist',
     //'concat:dev',
     'watch'
   ]);

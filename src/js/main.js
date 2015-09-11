@@ -1,4 +1,11 @@
 import Point from './Point.js';
-var body = document.querySelector('body');
-body.textContent = 'Good point: ' + new Point(2, 23);
-body.textContent = 'Good point: ' + new Point(2, 27).Sum();
+
+window.onload = function() {
+	var body = document.querySelector('body');
+	var sum = document.getElementsByClassName('sum');
+	var location = document.getElementsByClassName('location');
+
+	location[0].innerHTML = 'Good point: ' + new Point(2, 23);
+	sum[0].innerHTML = 'Good point: ' + new Point(2, 24).Sum();
+
+}
