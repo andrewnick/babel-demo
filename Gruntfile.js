@@ -17,6 +17,7 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
   //require('load-grunt-tasks')(grunt);
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+  var webpack = require('webpack');
 
   /**
    * Grunt config
@@ -90,6 +91,21 @@ module.exports = function (grunt) {
             // Nice colored output
             colors: true
         },
+        resolve: {
+          modulesDirectories: ['node_modules', 'web_modules', 'dist/components', 'static']
+        },
+        amd: {
+                $: true
+        },
+        plugins: [
+            new webpack.ResolverPlugin(
+                new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('bower.json', ['main'])
+            ),
+            new webpack.ProvidePlugin({
+                 $: "jquery",
+                 jQuery: "jquery"
+             })
+        ]
         // Create Sourcemaps for the bundle
         //devtool: 'source-map'
       }

@@ -1,9 +1,8 @@
 .DS_Store
 node_modules
 .sass-cache/
-
-# Built by webpack
-bundle.js
+dist/components
+src/components
 
 
 
